@@ -71,10 +71,17 @@ if __name__ == "__main__":
         # Start model training
         print("\n3. Starting model training process...")
         model_trainer = ModelTrainer()
-        r2_score = model_trainer.initiate_model_trainer(train_arr, test_arr)
+        results = model_trainer.initiate_model_trainer(train_arr, test_arr)
         print("✓ Model training completed successfully!")
-        print(f"  • Best model R² score: {r2_score:.4f}")
+        
+        # Display top 2 models
+        print("\nTop 2 Models Performance:")
+        for model_name, score in results["top_2_models"].items():
+            print(f"  • {model_name}: R² = {score:.4f}")
+        
+        print(f"\nBest Model Selected: {results['best_model_name']}")
+        print(f"Final R² Score: {results['best_model_score']:.4f}")
         
     except Exception as e:
-        print(f"\n❌ Error occurred: {e}")
+        print(f"\n Error occurred: {e}")
         raise e

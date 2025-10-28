@@ -76,4 +76,5 @@ if __name__ == "__main__":
     data_transformation = DataTransformation()
     train_path = 'artifacts/train.csv'
     test_path = 'artifacts/test.csv'
+    preprocessor_path = 'artifacts/preprocessor.pkl'
     data_transformation.initiate_data_transformation(train_path, test_path)
