@@ -6,10 +6,12 @@ from src.pipeline.exception import CustomException
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 # from src.components.data_ingestion import DataIngestion
-from src.components.data_transformation import DataTransformation
-from src.components.data_transformation import DataTransformationconfig
-from src.components.model_trainer import ModelTrainer
-from src.components.data_transformation import ModelTrainerconfig
+# from src.components.data_transformation import DataTransformation
+# from src.components.data_transformation import DataTransformationconfig
+# from src.components.model_trainer import ModelTrainer
+# from src.components.data_transformation import ModelTrainerconfig
+
+logging.basicConfig(level=logging.INFO)
 @dataclass
 class DataIngestionconfig:
     train_data_path: str = os.path.join('artifacts', 'train.csv')
