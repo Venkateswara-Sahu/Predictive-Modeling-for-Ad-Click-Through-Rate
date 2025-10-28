@@ -5,11 +5,14 @@ import pandas as pd
 from src.pipeline.exception import CustomException 
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
-# from src.components.data_ingestion import DataIngestion
-# from src.components.data_transformation import DataTransformation
-# from src.components.data_transformation import DataTransformationconfig
-# from src.components.model_trainer import ModelTrainer
-# from src.components.data_transformation import ModelTrainerconfig
+from src.components.data_transformation import DataTransformation
+from src.components.model_trainer import ModelTrainer
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='[%(asctime)s] %(lineno)d %(name)s - %(levelname)s - %(message)s'
+)
 
 logging.basicConfig(level=logging.INFO)
 @dataclass
@@ -48,9 +51,30 @@ class DataIngestion:
             raise CustomException(e, sys)
         
 if __name__ == "__main__":
-    obj = DataIngestion()
-    train_data, test_data = obj.initiate_data_ingestion()
-    data_transformation = DataTransformation()
-    train_arr, test_arr, _ = data_transformation.initiate_data_transformation(train_data, test_data)
-    model_trainer = ModelTrainer()
-    print(model_trainer.initiate_model_trainer(train_arr, test_arr))
+    try:
+        # Initialize data ingestion
+        obj = DataIngestion()
+        
+        # Start data ingestion
+        print("\n1. Starting data ingestion process...")
+        train_data_path, test_data_path = obj.initiate_data_ingestion()
+        print("✓ Data ingestion completed successfully!")
+        
+        # Proceed with data transformation
+        print("\n2. Starting data transformation process...")
+        data_transformation = DataTransformation()
+        train_arr, test_arr, preprocessor_path = data_transformation.initiate_data_transformation(train_data_path, test_data_path)
+        print("✓ Data transformation completed successfully!")
+        print(f"  • Transformed arrays shapes: Train-{train_arr.shape}, Test-{test_arr.shape}")
+        print(f"  • Preprocessor saved at: {preprocessor_path}")
+        
+        # Start model training
+        print("\n3. Starting model training process...")
+        model_trainer = ModelTrainer()
+        r2_score = model_trainer.initiate_model_trainer(train_arr, test_arr)
+        print("✓ Model training completed successfully!")
+        print(f"  • Best model R² score: {r2_score:.4f}")
+        
+    except Exception as e:
+        print(f"\n❌ Error occurred: {e}")
+        raise e
